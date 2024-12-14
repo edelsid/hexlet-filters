@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
-import { getPosts, filterPosts } from "./redux/actions"
+import { getPosts } from "./redux/actions"
 import Table from "./components/Table"
 import FilterMenu from "./components/FilterMenu"
 import './App.css'
@@ -14,8 +14,11 @@ function App() {
 
   return (
     <>
-      {/* <FilterMenu/> */}
-      <Table/>
+      <h1>Отзывы о наших сервисах</h1>
+      <div className="reviews__wrapper">
+        <FilterMenu/>
+        <Table/>
+      </div>
     </>
   )
 }

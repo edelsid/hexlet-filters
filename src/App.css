@@ -9,16 +9,39 @@ body {
   margin: 0;
 }
 
+h1 {
+  margin-block: 0 40px;
+}
+
+h2 {
+  margin-block: 0 30px;
+  padding-bottom: 5px;
+  width: 80%;
+  border-bottom: 1px solid orange;
+}
+
+h3 {
+  margin-block: 0 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
 #root {
   width: 80%;
   margin: auto;
-  padding-block: 100px;
+  padding-block: 60px;
+}
+
+.reviews__wrapper {
   display: flex;
   gap: 50px;
 }
 
 .reviews__table {
-  width: 100%;
+  width: 80%;
   border-collapse: collapse;
 }
 
@@ -31,4 +54,17 @@ body {
 .reviews__table thead td {
   font-weight: 600;
   background-color: orange;
+}
+
+.filters__menu {
+  padding: 15px;
+  width: 20%;
+  height: fit-content;
+  border: 1px solid orange;
+  border-radius: 10px;
+}
+
+.platform {
+  display: flex;
+  gap: 10px;
 }

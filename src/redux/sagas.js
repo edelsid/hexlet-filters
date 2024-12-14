@@ -8,14 +8,30 @@ import {
   SORT_POSTS_SUCCESS 
 } from "./actions";
 
+const filters = [];
+
 function fetchPosts() {
   const rawUrl = import.meta.env.VITE_API_URL;
   return fetch(`${rawUrl}/posts`).then(res => res.json());
 }
 
 function filterPosts(filter, reviews) {
-  const result = [...reviews, filter];
-  console.log(result);
+  let result = [];
+  const found = filters.find(e => e === filter);
+
+  if (found) {
+    const index = filters.indexOf(found);
+    filters.splice(index, 1);
+    if (filters.length === 0) return reviews;
+  } else {
+    filters.push(filter);
+  };
+
+  for (let i = 0; i < filters.length; i++) {
+    reviews.forEach(el => {
+      if (el.platform === filters[i]) result.push(el);
+    });
+  }
   return result;
 }
 
@@ -24,7 +40,8 @@ function* onFetchPosts() {
   yield put ({ type: GET_POSTS_SUCCESS, posts });
 }
 
-function* onFilterPosts({ payload: {filter, reviews} }) {
+function* onFilterPosts({ payload }) {
+  const { filter, reviews } = payload;
   const posts = yield call(filterPosts, filter, reviews);
   yield put ({ type: FILTER_POSTS_SUCCESS, posts });
 }
