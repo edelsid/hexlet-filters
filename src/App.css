@@ -21,12 +21,15 @@ h2 {
 }
 
 h3 {
-  margin-block: 0 20px;
+  margin-block: 0 10px;
 }
 
 ul {
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 #root {
@@ -57,20 +60,27 @@ ul {
   background-color: orange;
 }
 
-.filters__menu {
+.review__rating {
+  font-weight: 600;
+}
+
+.sidemenu {
   padding: 15px;
   width: 20%;
   height: fit-content;
   border: 1px solid orange;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .menu__item {
   margin-top: 30px;
-  padding-left: 10px;
+  padding-inline: 10px;
 }
 
-.platform {
+.platform, .date, .grade {
   display: flex;
   gap: 10px;
 }

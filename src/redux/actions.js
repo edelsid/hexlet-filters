@@ -11,12 +11,15 @@ export const getPosts = () => ({
   type: GET_POSTS,
 });
 
-export const filterPosts = (posts) => ({
+export const filterPosts = (data, filter, formRange) => ({
   type: FILTER_POSTS,
-  payload: posts,
+  payload: data,
+  filter,
+  formRange,
 });
 
-export const sortPosts = (posts) => ({
+export const sortPosts = (data, sorting) => ({
   type: SORT_POSTS,
-  payload: posts,
+  payload: data,
+  sorting,
 });

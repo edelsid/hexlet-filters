@@ -1,8 +1,9 @@
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
-import { getPosts } from "./redux/actions"
+import { getPosts, sortPosts } from "./redux/actions"
 import Table from "./components/Table"
 import FilterMenu from "./components/FilterMenu"
+import SortMenu from "./components/SortMenu"
 import './App.css'
 
 function App() {
@@ -16,7 +17,10 @@ function App() {
     <>
       <h1>Отзывы о наших сервисах</h1>
       <div className="reviews__wrapper">
-        <FilterMenu/>
+        <aside className="sidemenu">
+          <FilterMenu/>
+          <SortMenu/>
+        </aside>
         <Table/>
       </div>
     </>

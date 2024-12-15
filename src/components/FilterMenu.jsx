@@ -4,6 +4,8 @@ import { filterPosts } from "../redux/actions";
 
 export default function FilterMenu() {
   const reviews = useSelector(state => state.postReducer.posts);
+  const filters = useSelector(state => state.postReducer.filters);
+  const sorting = useSelector(state => state.postReducer.sorting);
   const dispatch = useDispatch();
   const [ platforms, setPlatforms ] = useState([]);
   const [ ratings, setRatings ] = useState({
@@ -35,9 +37,9 @@ export default function FilterMenu() {
     setPlatforms(platformsArr);
   }, [reviews]);
 
-  const handleChange = (e) => {
-    dispatch(filterPosts({filter: e.target.value, reviews, formRange}));
-  }
+  const handlePlatformChange = (e) => {
+    dispatch(filterPosts({filter: e.target.value, reviews, formRange, sorting}));
+  };
 
   const handleGrade = (e) => {
     const { id, value } = e.target;
@@ -58,19 +60,22 @@ export default function FilterMenu() {
   }
 
   useEffect(() => {
-    dispatch(filterPosts({filter: null, reviews, formRange}));
+    dispatch(filterPosts({filter: null, reviews, formRange, sorting}));
   }, [formRange]);
 
   return (
-    <aside className="filters__menu">
+    <div className="filters__menu">
       <h2>Фильтры</h2>
       <div className="menu__item platforms">
         <h3>Платформы</h3>
-        <form className="platforms__form" onChange={handleChange}>
-          {platforms.map((item) => <div className="platform" key={Math.random()}>
-            <input id={item} type="checkbox" value={item}/>
-            <label htmlFor={item}>{item}</label>
-          </div>)}
+        <form className="platforms__form" onChange={handlePlatformChange}>
+          <ul>
+            {platforms.map((item) => 
+            <li className="platform" key={Math.random()}>
+              <input id={item} type="checkbox" value={item} defaultChecked={filters.includes(item)}/>
+              <label htmlFor={item}>{item}</label>
+            </li>)}
+          </ul>
         </form>
       </div>
       <div className="menu__item grades">
@@ -111,6 +116,6 @@ export default function FilterMenu() {
           <p>{formRange.max}</p>
         </div>
       </div>
-    </aside>
+    </div>
   )
 }

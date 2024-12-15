@@ -13,7 +13,7 @@ export default function Table() {
   }, [reorganized]);
 
   useEffect(() => {
-    setData(reviews)
+    setData(reviews);
   }, [reviews]);
 
   return (
@@ -21,16 +21,16 @@ export default function Table() {
       <thead>
         <tr>
           <td>Платформа</td>
-          <td>Дата</td>
           <td>Оценка</td>
+          <td>Дата</td>
           <td>Сообщение</td>
         </tr>
       </thead>
       <tbody>
         {data && data.map((item) => <tr className="review" key={item.id}>
           <td className="review__platform">{item.platform}</td>
-          <td className="review__date">{new Date(item.date).toLocaleString('ru-RU', {dateStyle: 'medium', timeStyle: 'short'})}</td>
           <td className="review__rating">{item.rating}</td>
+          <td className="review__date">{new Date(item.date).toLocaleString('ru-RU', {dateStyle: 'medium', timeStyle: 'short'})}</td>
           <td className="review__text">{item.text}</td>
         </tr>)}
       </tbody>

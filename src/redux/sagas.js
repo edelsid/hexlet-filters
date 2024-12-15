@@ -1,4 +1,4 @@
-import { call, put, take, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { 
   GET_POSTS, 
   GET_POSTS_SUCCESS, 
@@ -24,7 +24,7 @@ function fetchPosts() {
   return fetch(`${rawUrl}/posts`).then(res => res.json());
 }
 
-function filterPosts(filter, reviews, formRange) {
+function filterPosts(reviews, filter, formRange) {
   let result = [];
   const found = filters.find(e => e === filter);
 
@@ -32,6 +32,8 @@ function filterPosts(filter, reviews, formRange) {
     const index = filters.indexOf(found);
     filters.splice(index, 1);
     if (filters.length === 0) return countWithRange(reviews, formRange);
+  } else if (!filter) {
+    
   } else if (!found && filter) {
     filters.push(filter);
   };
@@ -50,19 +52,38 @@ function filterPosts(filter, reviews, formRange) {
   return result;
 }
 
+function sortPosts(reviews, sorting) {
+  let result = [];
+  switch (sorting) {
+    case "high": result = reviews.slice().sort((a, b) => b.rating - a.rating);
+      break;
+    case "low": result = reviews.slice().sort((a, b) => a.rating - b.rating);
+      break;
+    case "new": result = reviews.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+      break;
+    case "old": result = reviews.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+  };
+  return result;
+}
+
 function* onFetchPosts() {
   const posts = yield call(fetchPosts);
   yield put ({ type: GET_POSTS_SUCCESS, posts });
 }
 
 function* onFilterPosts({ payload }) {
-  const { filter, reviews, formRange } = payload;
-  const posts = yield call(filterPosts, filter, reviews, formRange);
-  yield put ({ type: FILTER_POSTS_SUCCESS, posts });
+  const { filter, reviews, formRange, sorting } = payload;
+  const rawData = yield call(filterPosts, reviews, filter, formRange);
+  const data = yield call(sortPosts, rawData, sorting);
+  const filterArr = [...filters];
+  yield put ({ type: FILTER_POSTS_SUCCESS, data, filterArr, formRange });
 }
 
-function* onSortPosts() {
-
+function* onSortPosts({ payload }) {
+  const { reviews, formRange, sorting } = payload;
+  const rawData = yield call(filterPosts, reviews, false, formRange);
+  const data = yield call(sortPosts, rawData, sorting);
+  yield put ({ type: SORT_POSTS_SUCCESS, data, sorting });
 }
 
 function* saga() {
