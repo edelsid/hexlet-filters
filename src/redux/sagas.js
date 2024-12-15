@@ -28,13 +28,11 @@ function filterPosts(reviews, filter, formRange) {
   let result = [];
   const found = filters.find(e => e === filter);
 
-  if (found) {
+  if (filter && found) {
     const index = filters.indexOf(found);
     filters.splice(index, 1);
     if (filters.length === 0) return countWithRange(reviews, formRange);
-  } else if (!filter) {
-    
-  } else if (!found && filter) {
+  } else if (filter && !found) {
     filters.push(filter);
   };
 

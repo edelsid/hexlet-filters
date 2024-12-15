@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
-import { getPosts, sortPosts } from "./redux/actions"
+import { getPosts } from "./redux/actions"
 import Table from "./components/Table"
 import FilterMenu from "./components/FilterMenu"
 import SortMenu from "./components/SortMenu"
