@@ -5,36 +5,112 @@ import { filterPosts } from "../redux/actions";
 export default function FilterMenu() {
   const reviews = useSelector(state => state.postReducer.posts);
   const dispatch = useDispatch();
-  const [ ratings, setRatings ] = useState([]);
   const [ platforms, setPlatforms ] = useState([]);
+  const [ ratings, setRatings ] = useState({
+    min: 0,
+    max: 0,
+  })
+  const [ formRange, setFormRange ] = useState({
+    min: 0,
+    max: 0,
+  });
+  const [ percentRange, setPercentRange ] = useState({
+    left: 0,
+    right: 100,
+  });
 
-  const compareFn = (a, b) => b - a;
+  const sortGrades = (a, b) => a - b;
 
-  //clean repeats
   useEffect(() => {
-    const ratingsArr = [...new Set(reviews.map(item => item.rating))].sort(compareFn);
+    const ratingsArr = [...new Set(reviews.map(item => item.rating))].sort(sortGrades);
     const platformsArr = [...new Set(reviews.map(item => item.platform))].sort();
-    setRatings(ratingsArr);
+    setRatings({
+      min: ratingsArr[0] | 0,
+      max: ratingsArr[ratingsArr.length - 1] | 0,
+    })
+    setFormRange({
+      min: ratingsArr[0] | 0,
+      max: ratingsArr[ratingsArr.length - 1] | 0,
+    });
     setPlatforms(platformsArr);
   }, [reviews]);
 
   const handleChange = (e) => {
-    dispatch(filterPosts({filter: e.target.value, reviews}));
+    dispatch(filterPosts({filter: e.target.value, reviews, formRange}));
   }
+
+  const handleGrade = (e) => {
+    const { id, value } = e.target;
+    const numValue = parseInt(value);
+    const percent = ((numValue - ratings.min) / (ratings.max - ratings.min)) * 100;
+    if (id === "input_left" && numValue > formRange.max) return;
+    if (id === "input_right" && numValue < formRange.min) return;
+    setFormRange((prevForm) => ({
+      ...prevForm,
+      min: id === 'input_left' ? numValue : prevForm.min,
+      max: id === 'input_right' ? numValue : prevForm.max,
+    }));
+    setPercentRange((prevForm) => ({
+      ...prevForm,
+      left: id === 'input_left' ? percent : prevForm.left,
+      right: id === 'input_right' ? percent : prevForm.right,
+    }));
+  }
+
+  useEffect(() => {
+    dispatch(filterPosts({filter: null, reviews, formRange}));
+  }, [formRange]);
 
   return (
     <aside className="filters__menu">
       <h2>Фильтры</h2>
-      <div className="filters__platform">
+      <div className="menu__item platforms">
         <h3>Платформы</h3>
         <form className="platforms__form" onChange={handleChange}>
-          {platforms.map((item) => <div className="platform">
+          {platforms.map((item) => <div className="platform" key={Math.random()}>
             <input id={item} type="checkbox" value={item}/>
             <label htmlFor={item}>{item}</label>
           </div>)}
         </form>
       </div>
-      {/* <div>{ratings.map((item) => <p>{item}</p>)}</div> */}
+      <div className="menu__item grades">
+        <h3>Оценки</h3>
+        <div className="grades__label">
+          <p>от</p>
+          <p>до</p>
+        </div>
+        <div className="slider__multi">
+          <input 
+            type="range" 
+            id="input_left"
+            min={ratings.min} 
+            max={ratings.max} 
+            value={formRange.min}
+            step={1}
+            onChange={handleGrade}>
+          </input>
+          <input 
+            type="range" 
+            id="input_right"
+            min={ratings.min} 
+            max={ratings.max} 
+            value={formRange.max}
+            step={1}
+            onChange={handleGrade}>
+          </input>
+
+          <div className="slider__multipath">
+            <div className="slider__track"></div>
+            <div className="slider__range" style={{left: `${percentRange.left}%`, right: `${100 - percentRange.right}%`}}></div>
+            <div className="thumb left" style={{left: `${percentRange.left}%`}}></div>
+            <div className="thumb right" style={{right: `${100 - percentRange.right}%`}}></div>
+          </div>
+        </div>
+        <div className="grades__label">
+          <p>{formRange.min}</p>
+          <p>{formRange.max}</p>
+        </div>
+      </div>
     </aside>
   )
 }

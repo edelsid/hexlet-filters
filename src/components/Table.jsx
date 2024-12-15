@@ -27,7 +27,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {data && data.map((item) => <tr className="review">
+        {data && data.map((item) => <tr className="review" key={item.id}>
           <td className="review__platform">{item.platform}</td>
           <td className="review__date">{new Date(item.date).toLocaleString('ru-RU', {dateStyle: 'medium', timeStyle: 'short'})}</td>
           <td className="review__rating">{item.rating}</td>

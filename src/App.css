@@ -14,7 +14,7 @@ h1 {
 }
 
 h2 {
-  margin-block: 0 30px;
+  margin-block: 0;
   padding-bottom: 5px;
   width: 80%;
   border-bottom: 1px solid orange;
@@ -42,6 +42,7 @@ ul {
 
 .reviews__table {
   width: 80%;
+  height: fit-content;
   border-collapse: collapse;
 }
 
@@ -64,7 +65,95 @@ ul {
   border-radius: 10px;
 }
 
+.menu__item {
+  margin-top: 30px;
+  padding-left: 10px;
+}
+
 .platform {
   display: flex;
   gap: 10px;
+}
+
+.grades__label {
+  display: flex;
+  user-select: none;
+  justify-content: space-between;
+}
+
+.grades__label p {
+  margin-block: 5px;
+}
+
+.slider__multi {
+  position: relative;
+  margin: 7px 0;
+}
+
+.slider__multipath {
+  position: relative;
+  z-index: 1;
+  height: 10px;
+  margin: 0 10px;
+}
+
+.slider__multipath > .slider__track {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 10px;
+  background-color: #3e3c41;
+  border: 1px solid white;
+}
+
+.slider__multipath > .slider__range {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  border-radius: 10px;
+  background-color: orange;
+}
+
+.slider__multipath > .thumb {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.slider__multipath > .thumb.left {
+  transform: translate(-15px, -5px);
+}
+
+.slider__multipath > .thumb.right {
+  transform: translate(15px, -5px);
+}
+
+#input_left, #input_right {
+  position: absolute;
+  appearance: none;
+  z-index: 2;
+  pointer-events: none;
+  height: 15px;
+  width: 100%;
+  opacity: 0;
+}
+
+#input_left::-webkit-slider-thumb, #input_right::-webkit-slider-thumb {
+  appearance: none;
+  cursor: pointer;
+  pointer-events: all;
+  background-color: red;
+  width: 25px;
+  height: 25px;
 }

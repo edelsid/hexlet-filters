@@ -10,26 +10,41 @@ import {
 
 const filters = [];
 
+function countWithRange(reviews, formRange) {
+  let result = [];
+  reviews.forEach(el => {
+    if (el.rating >= formRange.min && el.rating <= formRange.max) 
+      result.push(el);
+  });
+  return result;
+}
+
 function fetchPosts() {
   const rawUrl = import.meta.env.VITE_API_URL;
   return fetch(`${rawUrl}/posts`).then(res => res.json());
 }
 
-function filterPosts(filter, reviews) {
+function filterPosts(filter, reviews, formRange) {
   let result = [];
   const found = filters.find(e => e === filter);
 
   if (found) {
     const index = filters.indexOf(found);
     filters.splice(index, 1);
-    if (filters.length === 0) return reviews;
-  } else {
+    if (filters.length === 0) return countWithRange(reviews, formRange);
+  } else if (!found && filter) {
     filters.push(filter);
   };
 
-  for (let i = 0; i < filters.length; i++) {
+  if (filters.length === 0) {
+    return countWithRange(reviews, formRange);
+  }
+
+  for (let i = 0; i <= filters.length; i++) {
     reviews.forEach(el => {
-      if (el.platform === filters[i]) result.push(el);
+      if (el.platform === filters[i] && 
+      (el.rating >= formRange.min && el.rating <= formRange.max)) 
+        result.push(el);
     });
   }
   return result;
@@ -41,8 +56,8 @@ function* onFetchPosts() {
 }
 
 function* onFilterPosts({ payload }) {
-  const { filter, reviews } = payload;
-  const posts = yield call(filterPosts, filter, reviews);
+  const { filter, reviews, formRange } = payload;
+  const posts = yield call(filterPosts, filter, reviews, formRange);
   yield put ({ type: FILTER_POSTS_SUCCESS, posts });
 }
 
