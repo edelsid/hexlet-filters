@@ -1,3 +1,4 @@
+import reviews from "../db/reviews.json" with {type: "json"};
 import { call, put, takeEvery } from "redux-saga/effects";
 import { 
   GET_POSTS, 
@@ -10,6 +11,8 @@ import {
 
 const filters = [];
 
+const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
 function countWithRange(reviews, formRange) {
   let result = [];
   reviews.forEach(el => {
@@ -20,8 +23,9 @@ function countWithRange(reviews, formRange) {
 }
 
 function fetchPosts() {
-  const rawUrl = import.meta.env.VITE_API_URL;
-  return fetch(`${rawUrl}/posts`).then(res => res.json());
+  return reviews;
+  // const rawUrl = import.meta.env.VITE_API_URL;
+  // return fetch(`${rawUrl}/posts`).then(res => res.json());
 }
 
 function filterPosts(reviews, filter, formRange) {
@@ -65,6 +69,7 @@ function sortPosts(reviews, sorting) {
 }
 
 function* onFetchPosts() {
+  yield delay(2000);
   const posts = yield call(fetchPosts);
   yield put ({ type: GET_POSTS_SUCCESS, posts });
 }

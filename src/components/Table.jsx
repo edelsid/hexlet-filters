@@ -17,6 +17,7 @@ export default function Table() {
   }, [reviews]);
 
   return (
+    data.length > 0 ? 
     <table className="reviews__table">
       <thead>
         <tr>
@@ -27,13 +28,14 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {data && data.map((item) => <tr className="review" key={item.id}>
+        {data.map((item) => <tr className="review" key={item.id}>
           <td className="review__platform">{item.platform}</td>
           <td className="review__rating">{item.rating}</td>
           <td className="review__date">{new Date(item.date).toLocaleString('ru-RU', {dateStyle: 'medium', timeStyle: 'short'})}</td>
           <td className="review__text">{item.text}</td>
         </tr>)}
       </tbody>
-    </table>
+    </table> : 
+    <p>Подождите, отзывы загружаются</p>
   )
 }
