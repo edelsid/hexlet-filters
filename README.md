@@ -1,7 +1,11 @@
 # Тестовое задание Hexlet №2 - Фильтры и сортировка.
 
+## Использованные технологии
+
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+
 ## Что реализовано
-- Загрузка и отображение списка отзывов. Для запросов был создан простой бэкенд, который предоставляет изначальный контент.
+- Загрузка и отображение списка отзывов. Для запросов ~~был создан простой бэкенд, который предоставляет изначальный контент~~ (см. далее).
 - Отзывы можно фильтровать по платформе, диапазону оценок или обоим показателям сразу;
 - Отзывы можно сортировать по высоте оценок и по новизне. В данном случае можно выбрать лишь что-то одно (сначала высокие оценки, сначала низкие оценки, сначала новое, сначала старое).
 - Фильтрация и сортировка комбинируются друг с другом, если воспользоваться и тем, и другим;
